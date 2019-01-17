@@ -62,6 +62,14 @@
              processor:(nullable PINRemoteImageManagerImageProcessor)processor
             completion:(nullable PINRemoteImageManagerImageCompletion)completion;
 
++ (void)setImageOnView:(id <PINRemoteImageCategory>)view
+              fromURLs:(NSArray <NSURL *> *)urls
+      placeholderImage:(PINImage *)placeholderImage
+          processorKey:(NSString *)processorKey
+             processor:(PINRemoteImageManagerImageProcessor)processor
+      progressDownload:(PINRemoteImageManagerProgressDownload)progressDownload
+            completion:(PINRemoteImageManagerImageCompletion)completion;
+
 + (void)setImageOnView:(nonnull id <PINRemoteImageCategory>)view
               fromURLs:(nullable NSArray <NSURL *> *)urls;
 

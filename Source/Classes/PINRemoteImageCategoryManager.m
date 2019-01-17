@@ -151,6 +151,23 @@
              processor:(PINRemoteImageManagerImageProcessor)processor
             completion:(PINRemoteImageManagerImageCompletion)completion
 {
+    return [self setImageOnView:view
+                       fromURLs:urls
+               placeholderImage:placeholderImage
+                   processorKey:nil
+                      processor:nil
+               progressDownload:nil
+                     completion:completion];
+}
+
++ (void)setImageOnView:(id <PINRemoteImageCategory>)view
+              fromURLs:(NSArray <NSURL *> *)urls
+      placeholderImage:(PINImage *)placeholderImage
+          processorKey:(NSString *)processorKey
+             processor:(PINRemoteImageManagerImageProcessor)processor
+      progressDownload:(PINRemoteImageManagerProgressDownload)progressDownload
+            completion:(PINRemoteImageManagerImageCompletion)completion
+{
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self setImageOnView:view
@@ -158,6 +175,7 @@
                 placeholderImage:placeholderImage
                     processorKey:processorKey
                        processor:processor
+                progressDownload:progressDownload
                       completion:completion];
         });
         return;
@@ -248,17 +266,20 @@
         downloadImageOperationUUID = [[PINRemoteImageManager sharedImageManager] downloadImageWithURLs:urls
                                                                                                options:options
                                                                                          progressImage:internalProgress
+                                                                                      progressDownload:progressDownload
                                                                                             completion:internalCompletion];
     } else if (processorKey.length > 0 && processor) {
         downloadImageOperationUUID = [[PINRemoteImageManager sharedImageManager] downloadImageWithURL:urls[0]
                                                                                               options:options
                                                                                          processorKey:processorKey
                                                                                             processor:processor
+                                                                                     progressDownload:progressDownload
                                                                                            completion:internalCompletion];
     } else {
         downloadImageOperationUUID = [[PINRemoteImageManager sharedImageManager] downloadImageWithURL:urls[0]
                                                                                               options:options
                                                                                         progressImage:internalProgress
+                                                                                     progressDownload:progressDownload
                                                                                            completion:internalCompletion];
     }
     
